@@ -53,6 +53,63 @@
     }
     .preview-bar strong { color: var(--e-global-color-accent); font-weight: 700; }
     .preview-bar a { color: #fff; }
+    .is-live .preview-bar { background: var(--e-global-color-primary); color: #fff; }
+
+    /* Test / live switch (demo only) */
+    .mode-toggle {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px 10px 12px;
+      background: #fff;
+      border: 1px solid #dedede;
+      border-radius: 999px;
+      box-shadow: 0 8px 24px -8px rgba(32, 32, 32, 0.35);
+      font-size: 13px;
+      line-height: 1.25;
+      color: #202020;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mode-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+    .mode-toggle .switch {
+      position: relative;
+      flex: none;
+      width: 40px;
+      height: 22px;
+      border-radius: 999px;
+      background: #c4c4c4;
+      transition: background-color 0.15s ease;
+    }
+    .mode-toggle .switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      transition: transform 0.15s ease;
+    }
+    .mode-toggle input:checked + .switch { background: var(--e-global-color-primary); }
+    .mode-toggle input:checked + .switch::after { transform: translateX(18px); }
+    .mode-toggle input:focus-visible + .switch { box-shadow: 0 0 0 4px rgba(156, 12, 35, 0.2); }
+    .mode-toggle .mode-text { display: flex; flex-direction: column; }
+    .mode-toggle #mode-sub { color: #7a7a7a; }
+    .mode-toggle.is-disabled { cursor: not-allowed; }
+    .mode-toggle.is-disabled .switch { opacity: 0.5; }
+    .is-live .mode-toggle { border-color: var(--e-global-color-primary); }
+    .is-live .mode-toggle #mode-label { color: var(--e-global-color-primary); }
+    @media (max-width: 640px) {
+      .mode-toggle { right: 12px; bottom: 12px; padding: 8px 12px 8px 10px; }
+      .mode-toggle #mode-sub { display: none; }
+    }
 
     /* Header */
     .site-header {
@@ -222,8 +279,17 @@
   <div class="preview-bar" id="preview-bar">
     <strong>Design preview</strong> of
     <a href="https://edwhite.org/alumni-directory-form/">edwhite.org/alumni-directory-form</a>
-    &middot; <span id="preview-mode">test submissions are <em>not</em> sent to Bloomerang.</span>
+    &middot; <span id="preview-mode"></span>
   </div>
+
+  <label class="mode-toggle" for="live-toggle">
+    <input type="checkbox" id="live-toggle">
+    <span class="switch" aria-hidden="true"></span>
+    <span class="mode-text">
+      <strong id="mode-label">Test mode</strong>
+      <span id="mode-sub">Submissions are not saved</span>
+    </span>
+  </label>
 
   <header class="site-header">
     <div class="container">
@@ -332,26 +398,65 @@
       });
     })();
 
-    // Demo safety: unless the URL has ?live=1, a valid submit shows the success
-    // screen without sending anything to the diocese's Bloomerang database.
+    // Test / live switch. In test mode (the default) a valid submit shows the
+    // success screen without sending anything to the diocese's Bloomerang
+    // database. Live mode calls Bloomerang's real submit. The choice is kept
+    // in the URL (?live=1) so it survives a refresh.
     (function () {
-      if (/[?&]live=1(&|$)/.test(location.search)) {
-        document.getElementById("preview-mode").innerHTML =
-          "<strong>LIVE MODE</strong> &mdash; submissions go to Bloomerang.";
-        return;
+      // Bloomerang's script points its API at a Bloomerang dev server when the
+      // page URL contains "localhost" or is a file:// URL, so live submits can
+      // only work from the hosted preview (GitHub Pages / Railway).
+      var localOnly = /localhost/.test(location.href) || location.protocol === "file:";
+      var live = !localOnly && /[?&]live=1(&|$)/.test(location.search);
+      var toggle = document.getElementById("live-toggle");
+
+      if (localOnly) {
+        toggle.disabled = true;
+        toggle.parentNode.classList.add("is-disabled");
       }
+
+      function render() {
+        toggle.checked = live;
+        document.body.classList.toggle("is-live", live);
+        document.getElementById("mode-label").textContent = live ? "Live submissions" : "Test mode";
+        document.getElementById("mode-sub").textContent = live
+          ? "Saved to Bloomerang"
+          : localOnly ? "Live works on the hosted site only" : "Submissions are not saved";
+        document.getElementById("preview-mode").innerHTML = live
+          ? "<strong>LIVE MODE</strong> &mdash; submissions go to Bloomerang."
+          : "test submissions are <em>not</em> sent to Bloomerang.";
+      }
+
+      toggle.addEventListener("change", function () {
+        if (toggle.checked && !confirm("Live mode sends submissions to the real Bloomerang database.\n\nTurn on live submissions?")) {
+          toggle.checked = false;
+          return;
+        }
+        live = toggle.checked;
+        var url = new URL(location.href);
+        if (live) url.searchParams.set("live", "1"); else url.searchParams.delete("live");
+        history.replaceState(null, "", url);
+        render();
+      });
+
       var timer = setInterval(function () {
         if (!window.Bloomerang || !Bloomerang.Api || typeof Bloomerang.Api.submitInteraction !== "function") return;
         clearInterval(timer);
+        var realSubmit = Bloomerang.Api.submitInteraction;
         Bloomerang.Api.submitInteraction = function () {
+          if (live) return realSubmit.apply(this, arguments);
           jQuery(".btn-submit-interaction").val("Submitting...").prop("disabled", true).addClass("disabled");
           setTimeout(function () { Bloomerang.Api.OnSuccess({}); }, 700);
         };
       }, 250);
+
+      render();
     })();
   </script>
 
   <!-- The unmodified Bloomerang form code from form.html -->
   <script src="bloomerang-form.js"></script>
+  <!-- Moves Maiden Name up; adds topic chips + prompts to "Any news?" -->
+  <script src="edw-form-enhancements.js"></script>
 </body>
 </html>

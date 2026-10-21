@@ -139,6 +139,14 @@
   grid-column: span 3;
 }
 
+/* ...or First / Last / Maiden three up, once edw-form-enhancements.js has
+   moved Maiden Name into this section. */
+#interaction-form-container .section.contact:has(.CustomAccountField_16386) .field.first-name,
+#interaction-form-container .section.contact:has(.CustomAccountField_16386) .field.last-name,
+#interaction-form-container .section.contact .field.CustomAccountField_16386 {
+  grid-column: span 2;
+}
+
 /* Address: city / state / zip on one row */
 #interaction-form-container .field.city,
 #interaction-form-container .field.state,
@@ -148,11 +156,10 @@
   grid-column: span 2;
 }
 
-/* About you: birth year / graduation year / maiden name on one row */
+/* Additional info: birth year / graduation year side by side */
 #interaction-form-container .field.CustomAccountField_146433,
-#interaction-form-container .field.CustomAccountField_16384,
-#interaction-form-container .field.CustomAccountField_16386 {
-  grid-column: span 2;
+#interaction-form-container .field.CustomAccountField_16384 {
+  grid-column: span 3;
 }
 
 /* ---- Labels ------------------------------------------------------------ */
@@ -296,8 +303,14 @@
   background: #fff;
   border: 1px solid var(--edw-line);
   border-radius: 999px;
+  font-family: inherit;
   font-size: 15px;
+  font-weight: 400;
   line-height: 1.3;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none; /* the site theme uppercases every <button> */
+  white-space: normal;
   color: var(--edw-ink);
   text-decoration: none;
   cursor: pointer;
@@ -354,6 +367,65 @@
 #interaction-form-container .field .checkboxes .checkbox.selected::before {
   content: "\2713";
   color: #fff;
+}
+
+/* ---- "Any news?" topics + prompts (edw-form-enhancements.js) ------------- */
+
+#interaction-form-container .edw-news-hint {
+  margin: -3px 0 10px;
+  font-size: 13px;
+  color: var(--edw-muted);
+}
+
+#interaction-form-container .edw-news .checkboxes {
+  gap: 6px;
+  margin: 0 0 14px;
+}
+
+/* A touch tighter than the other chip groups so all six topics fit on one
+   row on desktop. */
+#interaction-form-container .edw-news .checkboxes .checkbox {
+  padding: 8px 13px 8px 10px;
+}
+
+#interaction-form-container .edw-news-prompts {
+  margin: 0 0 12px;
+  padding: 12px 16px;
+  background: #fff8e1;
+  border-left: 4px solid var(--edw-gold);
+  border-radius: var(--edw-radius);
+  font-size: 14px;
+  color: var(--edw-ink);
+}
+
+#interaction-form-container .edw-news-prompts[hidden] {
+  display: none;
+}
+
+#interaction-form-container .edw-news-prompts p {
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+
+#interaction-form-container .edw-news-prompts ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+#interaction-form-container .edw-news-prompts li {
+  margin: 2px 0;
+}
+
+#interaction-form-container .edw-news-count {
+  margin-top: 6px;
+  font-size: 13px;
+  text-align: right;
+  color: var(--edw-muted);
+}
+
+#interaction-form-container .edw-news-count.is-low {
+  font-weight: 700;
+  color: var(--edw-red);
 }
 
 /* ---- Consent block (shown by Bloomerang only for EU countries) ----------- */
