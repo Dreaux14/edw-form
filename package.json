@@ -1,0 +1,12 @@
+{
+  "name": "edw-alumni-form-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Styled preview of the E. D. White Alumni Directory (Bloomerang) form",
+  "scripts": {
+    "start": "serve . -l ${PORT:-3000}"
+  },
+  "dependencies": {
+    "serve": "14.2.4"
+  }
+}

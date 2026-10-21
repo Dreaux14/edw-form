@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alumni Directory Form – E. D. White Catholic High School (Preview)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="https://i0.wp.com/edwhite.org/edwhite/wp-content/uploads/2023/02/cropped-athletic-logo-transparent-bkg.png?fit=32%2C32&ssl=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Euphoria+Script&family=Lato:wght@400;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- The form skin. This is the only file that needs to go to WordPress. -->
+  <link rel="stylesheet" href="edw-alumni-form.css">
+
+  <style>
+    /* ---- Page shell approximating edwhite.org (demo only) ---- */
+    :root {
+      --e-global-color-primary: #9c0c23;
+      --e-global-color-secondary: #202020;
+      --e-global-color-text: #7a7a7a;
+      --e-global-color-accent: #fec215;
+      --e-global-color-16439f1: #890b1f;
+      --e-global-typography-primary-font-family: "Raleway";
+      --e-global-typography-text-font-family: "Lato";
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: #5a5a5a;
+      font-family: "Lato", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: #202020; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+    /* Preview ribbon */
+    .preview-bar {
+      background: #202020;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      text-align: center;
+      padding: 8px 16px;
+    }
+    .preview-bar strong { color: var(--e-global-color-accent); font-weight: 700; }
+    .preview-bar a { color: #fff; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--e-global-color-primary);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 84px;
+    }
+    .site-logo img { width: 185px; }
+    .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+    .site-nav a {
+      display: block;
+      padding: 10px 14px;
+      color: #fff;
+      text-decoration: none;
+      font-family: "Raleway", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      border-bottom: 2px solid transparent;
+    }
+    .site-nav a:hover, .site-nav a[aria-current] { border-bottom-color: var(--e-global-color-accent); }
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: #fff;
+      font: 600 14px "Raleway", sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    @media (max-width: 960px) {
+      .menu-toggle { display: block; }
+      .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--e-global-color-16439f1); }
+      .site-nav.open { display: block; }
+      .site-nav ul { flex-direction: column; padding: 8px 20px 16px; }
+    }
+
+    /* Page banner */
+    .page-banner {
+      position: relative;
+      background: #6e6e6e;
+      min-height: 205px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+    .page-banner img { width: 768px; background: rgba(219, 219, 219, 0.67); }
+
+    /* Title + intro */
+    .page-title { padding: 75px 0 0; text-align: center; }
+    .page-title h1 {
+      margin: 0 0 18px;
+      font-family: "Raleway", sans-serif;
+      font-size: clamp(32px, 5vw, 42px);
+      font-weight: 400;
+      letter-spacing: 0.3px;
+      color: #202020;
+      line-height: 1.2;
+    }
+    .divider { width: 10%; min-width: 60px; height: 4px; margin: 0 auto; background: var(--e-global-color-primary); }
+    .intro { max-width: 860px; margin: 28px auto 0; text-align: center; }
+    .intro p { margin: 0 0 14px; }
+
+    .contact-card { margin: 32px auto 48px; text-align: center; }
+    .contact-card .name {
+      margin: 0;
+      font-family: "Euphoria Script", cursive;
+      font-size: 34px;
+      font-weight: 400;
+      color: var(--e-global-color-primary);
+      line-height: 1.2;
+    }
+    .contact-card .role {
+      margin: 0;
+      font-family: "Raleway", sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #ababab;
+    }
+    .contact-card a { font-family: "Raleway", sans-serif; font-size: 14px; color: #ababab; }
+    .contact-card a:hover { color: var(--e-global-color-primary); }
+
+    /* Form band — mirrors the live section's photo, wash and tilted bottom edge */
+    .form-band {
+      position: relative;
+      padding: 72px 0 150px;
+      background: url("https://i0.wp.com/edwhite.org/edwhite/wp-content/uploads/2021/10/Screen-Shot-2021-01-05-at-1.17.08-PM.png?fit=2560%2C517&ssl=1") center top / cover no-repeat;
+    }
+    .form-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(244, 239, 239, 0.8);
+    }
+    .form-band > .container { position: relative; z-index: 1; }
+    .form-band .shape {
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 70px;
+      z-index: 2;
+      pointer-events: none;
+      transform: rotate(180deg);
+    }
+    .form-band .shape svg { display: block; width: 100%; height: 100%; }
+    .form-band .shape path { fill: #8a0f14; }
+    @media (max-width: 640px) {
+      .form-band { padding: 32px 0 110px; }
+      .form-band > .container { padding: 0; }
+    }
+
+    /* Footer */
+    .site-footer { background: #8a0f14; }
+    .site-footer .main { background: #202020; color: rgba(255, 255, 255, 0.65); padding: 56px 0 40px; }
+    .site-footer .grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+    }
+    .site-footer img { width: 200px; margin-bottom: 18px; }
+    .site-footer h4 {
+      margin: 0 0 14px;
+      font-family: "Raleway", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--e-global-color-accent);
+    }
+    .site-footer ul { list-style: none; margin: 0; padding: 0; }
+    .site-footer li { margin: 0 0 8px; }
+    .site-footer a { color: rgba(255, 255, 255, 0.85); text-decoration: none; }
+    .site-footer a:hover { color: var(--e-global-color-accent); }
+    .site-footer address { font-style: normal; }
+    .site-footer .legal {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+    @media (max-width: 760px) {
+      .site-footer .grid { grid-template-columns: 1fr; gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="preview-bar" id="preview-bar">
+    <strong>Design preview</strong> of
+    <a href="https://edwhite.org/alumni-directory-form/">edwhite.org/alumni-directory-form</a>
+    &middot; <span id="preview-mode">test submissions are <em>not</em> sent to Bloomerang.</span>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="https://edwhite.org" aria-label="E. D. White Catholic High School home">
+        <img src="https://i0.wp.com/edwhite.org/edwhite/wp-content/uploads/2020/08/edw-logo_all-white.png?resize=600%2C213&ssl=1" alt="E. D. White Catholic High School" width="185" height="66">
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="https://edwhite.org/lunch/">Students</a></li>
+          <li><a href="https://plusportals.com/edwchs">Parents</a></li>
+          <li><a href="https://edwhite.org/2026/04/19/employment/">Faculty</a></li>
+          <li><a href="https://edwhite.org/alumni/" aria-current="page">Alumni</a></li>
+          <li><a href="https://edwhite.org/contact/">Contact</a></li>
+          <li><a href="https://tdougsspiritstore.square.site">T-Doug&rsquo;s Spirit Store</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-banner" aria-hidden="true">
+      <img src="https://i0.wp.com/edwhite.org/edwhite/wp-content/uploads/2026/08/Website-Page-Header-scaled.png?fit=768%2C96&ssl=1" alt="" width="768" height="96">
+    </section>
+
+    <section class="page-title">
+      <div class="container">
+        <h1>Alumni Directory Form</h1>
+        <div class="divider"></div>
+        <div class="intro">
+          <p>When you become a member of the E. D. White community, you become a member for life. The journey as a Cardinal does not end at graduation. We take pride in honoring our alumni as well as those who became integral through service to our school community.</p>
+          <p>Please complete and submit the form below to have your information included or updated in our Alumni Directory.</p>
+        </div>
+        <div class="contact-card">
+          <p class="name">Mary Fakier Boudreaux '08</p>
+          <p class="role">Alumni Director</p>
+          <a href="mailto:mboudreaux@htdiocese.org">mboudreaux@htdiocese.org</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-band">
+      <div class="container">
+        <!-- Bloomerang embed: the form is injected right after this tag. -->
+        <script type="text/javascript" id="bloomerangForm4215808"></script>
+        <div class="edw-form-loading">Loading form&hellip;</div>
+      </div>
+      <div class="shape" aria-hidden="true">
+        <svg viewBox="0 0 2600 131.1" preserveAspectRatio="none">
+          <path d="M0 0L2600 0 2600 69.1 0 0z"/>
+          <path style="opacity:0.5" d="M0 0L2600 0 2600 69.1 0 69.1z"/>
+          <path style="opacity:0.25" d="M2600 0L0 0 0 130.1 2600 69.1z"/>
+        </svg>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="main">
+      <div class="container">
+        <div class="grid">
+          <div>
+            <img src="https://i0.wp.com/edwhite.org/edwhite/wp-content/uploads/2020/08/edw-logo_all-white.png?resize=600%2C213&ssl=1" alt="E. D. White Catholic High School" width="200" height="71">
+            <address>
+              555 Cardinal Drive, Thibodaux, LA 70301<br>
+              <a href="tel:1-985-446-8486">(985) 446-8486</a>
+            </address>
+          </div>
+          <div>
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="https://plusportals.com/edwchs">PlusPortals</a></li>
+              <li><a href="https://edwhite.org/school-calendar/">School Calendar</a></li>
+              <li><a href="https://www.payschoolscentral.com/">Lunch Account</a></li>
+              <li><a href="https://edwhite.org/student-life/student-forms/">Student Forms</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Diocese Links</h4>
+            <ul>
+              <li><a href="https://www.htdiocese.org/">Diocese of Houma-Thibodaux</a></li>
+              <li><a href="https://safeandsacred-htdiocese.org/login/index.php">Safe Environment Training</a></li>
+              <li><a href="https://www.facebook.com/edwhitecatholic/">Facebook</a></li>
+              <li><a href="https://www.instagram.com/edwarddouglaswhitecatholic/">Instagram</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="legal">
+          <span>&copy;2020 ED WHITE. ALL RIGHTS RESERVED.</span>
+          <span>Preview build &mdash; not the live site</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  <script>
+    // Mobile menu
+    (function () {
+      var btn = document.querySelector(".menu-toggle");
+      var nav = document.getElementById("site-nav");
+      btn.addEventListener("click", function () {
+        var open = nav.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    })();
+
+    // Demo safety: unless the URL has ?live=1, a valid submit shows the success
+    // screen without sending anything to the diocese's Bloomerang database.
+    (function () {
+      if (/[?&]live=1(&|$)/.test(location.search)) {
+        document.getElementById("preview-mode").innerHTML =
+          "<strong>LIVE MODE</strong> &mdash; submissions go to Bloomerang.";
+        return;
+      }
+      var timer = setInterval(function () {
+        if (!window.Bloomerang || !Bloomerang.Api || typeof Bloomerang.Api.submitInteraction !== "function") return;
+        clearInterval(timer);
+        Bloomerang.Api.submitInteraction = function () {
+          jQuery(".btn-submit-interaction").val("Submitting...").prop("disabled", true).addClass("disabled");
+          setTimeout(function () { Bloomerang.Api.OnSuccess({}); }, 700);
+        };
+      }, 250);
+    })();
+  </script>
+
+  <!-- The unmodified Bloomerang form code from form.html -->
+  <script src="bloomerang-form.js"></script>
+</body>
+</html>
