@@ -1,9 +1,11 @@
 // E. D. White Alumni Directory Form — layout & helper tweaks
 // ---------------------------------------------------------------------------
-// Runs after Bloomerang injects the form. Two tweaks:
+// Runs after Bloomerang injects the form. Three tweaks:
 //
 //   1. Maiden Name moves up next to First/Last Name.
-//   2. "Any news?" becomes topic chips + a guiding question per topic.
+//   2. Military service moves up beside Birthdate/Graduation Year and becomes
+//      pick-one.
+//   3. "Any news?" becomes topic chips + a guiding question per topic.
 //
 // How both stay compatible with Bloomerang: Bloomerang only collects custom
 // fields found inside ".section.custom-fields" whose id contains "Account".
@@ -11,8 +13,18 @@
 // as a hidden input and is the only thing Bloomerang reads. The visible
 // replacements have no "Account" in their ids and just keep it in sync.
 (function () {
-  var MAIDEN_ID = "CustomAccountField_16386";
-  var NEWS_ID = "CustomAccountField_4282369";
+  // Bloomerang field numbers. The pasted embed code (form.html) names fields
+  // "CustomAccountField_<n>"; the hosted widget on edwhite.org names them
+  // "Account_<n>". Both are handled.
+  var MAIDEN_FIELD = "16386";
+  var NEWS_FIELD = "4282369";
+  var GRAD_YEAR_FIELD = "16384";
+  var MILITARY_FIELD = "6132737";
+  var MILITARY_NONE = "6135809"; // "Not Active Duty or Veteran"
+
+  function byFieldId(n) {
+    return document.getElementById("CustomAccountField_" + n) || document.getElementById("Account_" + n);
+  }
 
   // One guiding question per topic keeps the prompt box short even when
   // several chips are picked. "tag" is what Bloomerang stores.
@@ -36,7 +48,7 @@
   }
 
   function moveMaidenName() {
-    var original = document.getElementById(MAIDEN_ID);
+    var original = byFieldId(MAIDEN_FIELD);
     if (!original) return false;
     if (original.getAttribute("data-edw-enhanced")) return true;
     var lastName = document.querySelector(".interaction-form .field.last-name");
@@ -69,8 +81,44 @@
     return true;
   }
 
+  // Bloomerang adds the military question near the bottom as a multi-select.
+  // Its answers are mutually exclusive, so: move it up with the other "about
+  // you" facts, list the "no" answer last, and allow only one pick. It stays
+  // inside the custom-fields section, so Bloomerang still collects it.
+  function placeMilitary() {
+    var group = byFieldId(MILITARY_FIELD);
+    if (!group) return false;
+    if (group.getAttribute("data-edw-enhanced")) return true;
+    group.setAttribute("data-edw-enhanced", "1");
+
+    var field = group.parentNode;
+    field.classList.add("edw-pick-one");
+
+    var none = group.querySelector('.checkbox[data-id="' + MILITARY_NONE + '"]');
+    if (none) group.appendChild(none);
+
+    // Bloomerang's own onclick has already toggled the clicked chip by the
+    // time this bubbles up; clear any other pick.
+    group.addEventListener("click", function (e) {
+      var picked = e.target.closest(".checkbox");
+      if (!picked) return;
+      Array.prototype.forEach.call(group.querySelectorAll(".checkbox.selected"), function (chip) {
+        if (chip === picked) return;
+        chip.classList.remove("selected");
+        chip.querySelector("input").checked = false;
+      });
+    });
+
+    var gradYear = byFieldId(GRAD_YEAR_FIELD);
+    if (gradYear) {
+      var gradField = gradYear.parentNode;
+      gradField.parentNode.insertBefore(field, gradField.nextSibling);
+    }
+    return true;
+  }
+
   function enhanceNews() {
-    var original = document.getElementById(NEWS_ID);
+    var original = byFieldId(NEWS_FIELD);
     if (!original) return false;
     if (original.getAttribute("data-edw-enhanced")) return true;
 
@@ -163,7 +211,7 @@
 
   // Bloomerang injects the form asynchronously, so retry until every tweak
   // has found its field.
-  var pending = [moveMaidenName, enhanceNews];
+  var pending = [moveMaidenName, placeMilitary, enhanceNews];
   function run() {
     pending = pending.filter(function (task) { return !task(); });
     return !pending.length;

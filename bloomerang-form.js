@@ -453,9 +453,9 @@
 '</div>' + 
 '    <div class="section custom-fields">' + 
 '      <h3>Additional Information</h3>' + 
-'      <div class="field text CustomAccountField_146433" >' + 
-'<label for="CustomAccountField_146433"><span class="label">Birth Year</span></label>' + 
-'<input id="CustomAccountField_146433" name="CustomAccountField_146433" class="validYear" type="text" maxlength="255" placeholder="yyyy"></input>' + 
+'      <div class="field date CustomAccountField_6136833" >' + 
+'<label for="CustomAccountField_6136833"><span class="label">Birthdate</span></label>' + 
+'<input id="CustomAccountField_6136833" name="CustomAccountField_6136833" class="validDate" type="date" maxlength="255" placeholder="mm/dd/yyyy"></input>' + 
 '</div>' + 
 '<div class="field text CustomAccountField_16384" >' + 
 '<label for="CustomAccountField_16384"><span class="label">Graduation Year</span></label>' + 
@@ -680,6 +680,22 @@
 '<div class="field text CustomAccountField_5225473" >' + 
 '<label for="CustomAccountField_5225473"><span class="label">Any questions? Leave below or contact Mary Boudreaux \'08, Alumni Director!</span></label>' + 
 '<input id="CustomAccountField_5225473" name="CustomAccountField_5225473" type="text" maxlength="255"></input>' + 
+'</div>' + 
+'<div class="field text CustomAccountField_6132737" >' + 
+'<label for="CustomAccountField_6132737">Are you active duty military or a veteran?</label>' + 
+'<div id="CustomAccountField_6132737" class="checkboxes"><a href="javascript:void(0)" class="checkbox" data-id="6133761" onclick="var box = jQuery(this).children(\'input\'); box.prop(\'checked\', !box.prop(\'checked\'));jQuery(box).trigger(\'change\'); return false;">' + 
+'                                <input type="checkbox" value="6133761" onchange="jQuery(this).closest(\'.checkbox\').toggleClass(\'selected\')">' + 
+'                                <span class="text">Active Duty</span>' + 
+'                              </a>' + 
+'<a href="javascript:void(0)" class="checkbox" data-id="6135809" onclick="var box = jQuery(this).children(\'input\'); box.prop(\'checked\', !box.prop(\'checked\'));jQuery(box).trigger(\'change\'); return false;">' + 
+'                                <input type="checkbox" value="6135809" onchange="jQuery(this).closest(\'.checkbox\').toggleClass(\'selected\')">' + 
+'                                <span class="text">Not Active Duty or Veteran</span>' + 
+'                              </a>' + 
+'<a href="javascript:void(0)" class="checkbox" data-id="6134785" onclick="var box = jQuery(this).children(\'input\'); box.prop(\'checked\', !box.prop(\'checked\'));jQuery(box).trigger(\'change\'); return false;">' + 
+'                                <input type="checkbox" value="6134785" onchange="jQuery(this).closest(\'.checkbox\').toggleClass(\'selected\')">' + 
+'                                <span class="text">Veteran</span>' + 
+'                              </a>' + 
+'</div>' + 
 '</div>' + 
 '' + 
 '</div>' + 

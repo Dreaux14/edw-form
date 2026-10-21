@@ -140,10 +140,13 @@
 }
 
 /* ...or First / Last / Maiden three up, once edw-form-enhancements.js has
-   moved Maiden Name into this section. */
-#interaction-form-container .section.contact:has(.CustomAccountField_16386) .field.first-name,
-#interaction-form-container .section.contact:has(.CustomAccountField_16386) .field.last-name,
-#interaction-form-container .section.contact .field.CustomAccountField_16386 {
+   moved Maiden Name into this section.
+   Custom fields are named "CustomAccountField_<n>" in the pasted embed code
+   and "Account_<n>" in the hosted widget edwhite.org uses, so both appear. */
+#interaction-form-container .section.contact:has(.CustomAccountField_16386, .Account_16386) .field.first-name,
+#interaction-form-container .section.contact:has(.CustomAccountField_16386, .Account_16386) .field.last-name,
+#interaction-form-container .section.contact .field.CustomAccountField_16386,
+#interaction-form-container .section.contact .field.Account_16386 {
   grid-column: span 2;
 }
 
@@ -156,9 +159,11 @@
   grid-column: span 2;
 }
 
-/* Additional info: birth year / graduation year side by side */
-#interaction-form-container .field.CustomAccountField_146433,
-#interaction-form-container .field.CustomAccountField_16384 {
+/* Additional info: birthdate / graduation year side by side */
+#interaction-form-container .field.CustomAccountField_6136833,
+#interaction-form-container .field.CustomAccountField_16384,
+#interaction-form-container .field.Account_6136833,
+#interaction-form-container .field.Account_16384 {
   grid-column: span 3;
 }
 
@@ -190,12 +195,18 @@
   color: var(--edw-muted);
 }
 
+/* Groups edw-form-enhancements.js limits to a single pick (military). */
+#interaction-form-container .field.edw-pick-one:has(> .checkboxes) > label::after {
+  content: "Choose one";
+}
+
 /* ---- Text inputs, selects, textareas ----------------------------------- */
 
 #interaction-form-container .field input[type="text"],
 #interaction-form-container .field input[type="email"],
 #interaction-form-container .field input[type="tel"],
 #interaction-form-container .field input[type="number"],
+#interaction-form-container .field input[type="date"],
 #interaction-form-container .field select,
 #interaction-form-container .field textarea {
   display: block;

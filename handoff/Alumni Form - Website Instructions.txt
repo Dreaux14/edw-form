@@ -1,0 +1,112 @@
+E. D. WHITE ALUMNI DIRECTORY FORM - WEBSITE UPDATE
+Page: https://edwhite.org/alumni-directory-form/
+Time needed: about 10 minutes
+=====================================================================
+
+
+WHAT THIS DOES
+--------------
+1. RESTYLES THE FORM to match the site's colors and fonts: a white card
+   with numbered sections, larger fields, and tap-friendly buttons for
+   teams and clubs. It also works well on phones.
+
+2. SMALL IMPROVEMENTS. Maiden Name moves up next to First and Last Name.
+   "Any news?" gets topic buttons (Graduated, New job, Got married,
+   New baby, Achievement, Other) that suggest what to write.
+
+This only ADDS one widget to the page. The existing Bloomerang form widget
+stays exactly as it is, and nothing changes in Bloomerang. Submissions go
+to the same place as before.
+
+
+FILES
+-----
+  Alumni Form - PASTE INTO WEBSITE.txt
+      The styles and improvements, in one block to paste.
+
+  Alumni Form - Website Instructions.txt
+      This file.
+
+
+BEFORE YOU START
+----------------
+- You need a WordPress ADMINISTRATOR login. WordPress removes scripts from
+  HTML widgets for lower roles.
+- Use a computer, not a phone. You will copy a block of text.
+
+
+STEPS
+-----
+1. Log in to WordPress. Go to Pages, find "Alumni Directory Form" and click
+   "Edit with Elementor".
+
+2. Scroll down to the section with the faded sports-photo background,
+   below Mary Fakier Boudreaux '08 and her email address. It contains a
+   SHORTCODE widget with this content:
+
+     <script defer src="https://s3-us-west-2.amazonaws.com/bloomerang-public-cdn/dioceseofhoumathibodaux/.widget-js/4215808.js" type="text/javascript"></script>
+
+   LEAVE THIS WIDGET AS IT IS. It loads the form from Bloomerang.
+
+3. In the Elementor widget panel, search for "HTML". Drag the HTML widget
+   into the same section, directly BELOW that Shortcode widget.
+
+4. Open "Alumni Form - PASTE INTO WEBSITE.txt" in Notepad (Windows) or
+   TextEdit (Mac). Press Ctrl+A then Ctrl+C (Mac: Cmd+A, Cmd+C) to copy ALL
+   of it. Click into the HTML widget's code box and paste (Ctrl+V / Cmd+V).
+
+   It should start with  <!-- =====  and end with  </script>
+
+5. Click "Update" (or "Publish") to save.
+
+   Note: inside the Elementor editor the form may still look plain, because
+   the editor doesn't always run scripts. That is normal. Check the real
+   page in step 7.
+
+6. Clear the caches so visitors get the new version:
+   - Autoptimize (in the black admin bar at the top of the site):
+     "Autoptimize" > "Delete Cache".
+   - Elementor: Elementor > Tools > "Regenerate Files & Data" (in some
+     versions it is called "Clear Files & Data").
+   - If any other caching plugin is installed, clear its cache too.
+
+7. Check the page in a private/incognito browser window:
+     https://edwhite.org/alumni-directory-form/
+   You should see:
+   - A white form card with a red top edge and numbered sections
+     1 Contact Information, 2 Address, 3 Additional Information
+   - Maiden Name on the same row as First Name and Last Name
+   - Teams and clubs shown as rounded buttons that turn red when clicked
+   - Topic buttons under "Any news you'd like to share..."
+
+8. Send one test submission, using your own name and email:
+   - Fill in Maiden Name, click a topic under "Any news?" and type a short
+     note, then click a team or club.
+   - Click Submit. You should see "Once a Cardinal, Always a Cardinal!"
+   - Ask Mary to find the test record in Bloomerang and confirm that the
+     Maiden Name, the news (it starts with the topic in brackets, for
+     example "[Married] ...") and the team/club came through. Then she can
+     delete the test record.
+
+
+IF SOMETHING GOES WRONG
+-----------------------
+- The form looks the same as before (plain, unstyled):
+    Clear the caches again (step 6) and reload in a new private window.
+    If it's still plain, check that the whole file was pasted into an
+    "HTML" widget, not a "Text Editor" widget.
+
+- To undo: delete the HTML widget you added and click Update. The form
+  goes back to exactly how it was.
+
+
+GOOD TO KNOW
+------------
+- The look and the improvements are tied to this specific Bloomerang
+  form. If fields are added or renamed in Bloomerang, the form keeps
+  working. New fields simply appear full-width in the same style.
+
+- Separate small fix on the same page: the email link under Mary's name
+  (mboudreaux@htdiocese.org) currently opens another staff member's
+  directory page instead of an email. Edit that text widget and set the
+  link to:  mailto:mboudreaux@htdiocese.org
